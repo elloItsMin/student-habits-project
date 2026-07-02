@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[52]:
+# In[1]:
 
 
 import pandas as pd
@@ -29,12 +29,6 @@ import sys
 # In[4]:
 
 
-print(sys.executable)
-
-
-# In[5]:
-
-
 def load_data(file_path):
     # File Exisistence Check
     if not os.path.exists(file_path):
@@ -54,41 +48,68 @@ def load_data(file_path):
         sys.exit(1)
 
 
-# In[14]:
+# In[52]:
 
 
 def explore_structure(df):
 
     rows, cols = df.shape
+    print("\n")
+    print("1.")
+    print("=" * 40)
+    print("Checking Data Structure")
+    print("-" * 40)
     print(f"{rows}행 {cols}열")
+    print("-" * 40)
 
     # print(df.columns)
+    print("\n COLUMNS & DATA TYPES:")
+    print("-" * 40)
     print(df.dtypes)
+    print("-" * 40)
+
+    print("\n FIRST 5 ROWS:")
+    print("-" * 40)
     print(df.head(5))
+    print("=" * 40)
     # df.info()
 
 
-# In[31]:
+# In[53]:
 
 
 def show_statistics(df):
     df_numeric = df.select_dtypes(include="number")
+    print("\n")
+    print("2.")
+    print("=" * 40)
+    print("Descriptive Statistics")
+    print("-" * 40)
     print(df_numeric.describe())
+    print("-" * 40)
 
     # count: The number of data points excluding missing values (If it is less than 200, missing values exist)
     # mean: The average value
     # std: Standard deviation (How spread out the values are from the mean)
     # min / max: The minimum value / maximum value
     # 25% / 50% / 75%: The lower quartile / median / upper quartile cutoff values (Quartiles)
-
+    print("\n COLUMN MEANS")
+    print("-" * 40)
     for num_col in df_numeric.columns:
         print(f"{num_col}의 평균: {df_numeric[num_col].mean()}")
+    print("=" * 40)
 
 
-# In[49]:
+# In[54]:
 
 
 def check_missing(df):
+
+    print("\n")
+    print("3.")
+    print("=" * 40)
+    print("Identifying Missing Values")
+    print("-" * 40)
 
     total_rows = len(df)
 
@@ -114,10 +135,12 @@ def check_missing(df):
                 "심각도": severity
             }
             print(f"{idx} | 결측치: {percent}% | 심각도: {severity}")
+
+    print("=" * 40)
     return d_null
 
 
-# In[80]:
+# In[58]:
 
 
 def numpy_stats(df, col):
@@ -129,17 +152,29 @@ def numpy_stats(df, col):
              'min': np.min(df_vals),
              'max': np.max(df_vals)}
 
+    print("\n")
+    print("4.")
+    print("=" * 40)
+    print("Statistics with NumPy")
+    print("-" * 40)
+
     print(f"6시간 이상 공부하는 학생 수: {len(df_vals[df_vals >= 6])}")
+    print("-" * 40)
+
 
     df_stat = df[col].describe()
+
+    print("\n CROSS-VALIDATION (PANDAS VS NUMPY):")
+    print("-" * 40)
 
     for stat_name, val in result.items():
         v1 = round(df_stat[stat_name], 2)
         v2 = round(val, 2)
-        print(f"[{stat_name:4}] Pandas: {v1:<6} | NumPy: {v2:<6} | Identical: {v1 == v2}")    
+        print(f"[{stat_name:4}] Pandas: {v1:<6} | NumPy: {v2:<6} | Identical: {v1 == v2}")
+    print("=" * 40)
 
 
-# In[84]:
+# In[59]:
 
 
 def main():
@@ -151,7 +186,7 @@ def main():
     numpy_stats(df, "study_hours")
 
 
-# In[85]:
+# In[60]:
 
 
 main()
